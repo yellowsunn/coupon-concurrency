@@ -4,7 +4,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 
 @Entity
-data class Coupon(
+class Coupon(
     @Id
     val id: Long,
     val couponName: String,

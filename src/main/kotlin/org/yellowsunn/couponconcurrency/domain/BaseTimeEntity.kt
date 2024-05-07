@@ -1,27 +1,17 @@
 package org.yellowsunn.couponconcurrency.domain
 
 import jakarta.persistence.MappedSuperclass
-import jakarta.persistence.PrePersist
-import jakarta.persistence.PreUpdate
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import java.time.ZonedDateTime
 
 @MappedSuperclass
 abstract class BaseTimeEntity {
-    lateinit var createdAt: ZonedDateTime
-        private set
+    @CreatedDate
+    var createdAt: ZonedDateTime = ZonedDateTime.now()
+        protected set
 
-    lateinit var modifiedAt: ZonedDateTime
-        private set
-
-    @PrePersist
-    fun prePersist() {
-        val now = ZonedDateTime.now()
-        this.createdAt = now
-        this.modifiedAt = now
-    }
-
-    @PreUpdate
-    fun preUpdate() {
-        this.modifiedAt = ZonedDateTime.now()
-    }
+    @LastModifiedDate
+    var modifiedAt: ZonedDateTime = ZonedDateTime.now()
+        protected set
 }
