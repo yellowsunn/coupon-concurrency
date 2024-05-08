@@ -27,26 +27,48 @@
 
   <div style="width: 300px; height: 400px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center">
     <div style="margin: 10px">남은 쿠폰 수: <span th:text="${remainCouponCount}"></span></div>
-    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 10px" th:onclick="giveCoupon([[${couponId}]])">쿠폰 발급 하기</button>
-    <button type="button" class="btn btn-outline-danger" th:onclick="giveCoupon10([[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기</button>
+    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 10px" th:onclick="giveCouponV1([[${couponId}]])">쿠폰 발급 하기</button>
+    <button type="button" class="btn btn-outline-danger" th:onclick="giveCouponV1_10([[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기 (v1)</button>
+    <button type="button" class="btn btn-outline-warning" th:onclick="giveCouponV2_10([[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기 (v2)</button>
   </div>
 </body>
 <script th:inline="javascript">
-  const giveCoupon = async (couponId) => {
+  const giveCouponV1 = async (couponId) => {
     try {
-      const response = await axios.post(`/api/coupons/${couponId}`)
+      const response = await axios.post(`/api/v1/coupons/${couponId}`)
       console.log('res', response)
     } catch (e) {
+      console.log(e)
       alert(e?.response?.data?.message)
     } finally {
       location.reload()
     }
   }
-  const giveCoupon10 = (couponId) => {
-    for (let i = 0; i < 10; i++) {
-      giveCoupon(couponId)
+
+  const giveCouponV2 = async (couponId) => {
+    try {
+      const response = await axios.post(`/api/v2/coupons/${couponId}`)
+      console.log('res', response)
+    } catch (e) {
+      console.log(e)
+      alert(e?.response?.data?.message)
+    } finally {
+      location.reload()
     }
   }
+
+  const giveCouponV1_10 = (couponId) => {
+    for (let i = 0; i < 10; i++) {
+      giveCouponV1(couponId)
+    }
+  }
+
+  const giveCouponV2_10 = (couponId) => {
+    for (let i = 0; i < 10; i++) {
+      giveCouponV2(couponId)
+    }
+  }
+
   const clearLoginCookie = () => {
     document.cookie =  'userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     location.href='/'

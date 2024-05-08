@@ -5,16 +5,16 @@ import org.yellowsunn.couponconcurrency.repository.persistence.LockRepository
 import java.time.Duration
 
 @Component
-class CouponFacade(
-    private val couponService: CouponService,
+class CouponFacadeV2(
+    private val couponServiceV2: CouponServiceV2,
     private val namedLockJdbcRepository: LockRepository,
 ) {
     fun giveCoupon(
         couponId: Long,
         userId: String,
     ) {
-        namedLockJdbcRepository.executeWithLock("test", Duration.ofSeconds(1)) {
-            couponService.giveCoupon(couponId, userId)
+        namedLockJdbcRepository.executeWithLock("test:$userId:$couponId", Duration.ofSeconds(1)) {
+            couponServiceV2.giveCoupon(couponId, userId)
         }
     }
 }
