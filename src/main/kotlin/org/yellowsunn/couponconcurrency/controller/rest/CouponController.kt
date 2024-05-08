@@ -4,13 +4,15 @@ import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
-import org.yellowsunn.couponconcurrency.service.CouponFacadeV1
-import org.yellowsunn.couponconcurrency.service.CouponFacadeV2
+import org.yellowsunn.couponconcurrency.service.v1.CouponFacadeV1
+import org.yellowsunn.couponconcurrency.service.v2.CouponFacadeV2
+import org.yellowsunn.couponconcurrency.service.v3.CouponFacadeV3
 
 @RestController
 class CouponController(
     private val couponFacadeV1: CouponFacadeV1,
     private val couponFacadeV2: CouponFacadeV2,
+    private val couponFacadeV3: CouponFacadeV3,
 ) {
     @PostMapping("/api/v1/coupons/{couponId}")
     fun giveCoupon(
@@ -26,5 +28,13 @@ class CouponController(
         @PathVariable couponId: Long,
     ) {
         return couponFacadeV2.giveCoupon(couponId = couponId, userId = userId)
+    }
+
+    @PostMapping("/api/v3/coupons/{couponId}")
+    fun giveCouponV3(
+        @CookieValue(value = "userId", required = true) userId: String,
+        @PathVariable couponId: Long,
+    ) {
+        return couponFacadeV3.giveCoupon(couponId = couponId, userId = userId)
     }
 }

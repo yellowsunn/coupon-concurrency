@@ -1,4 +1,4 @@
-package org.yellowsunn.couponconcurrency.service.v2
+package org.yellowsunn.couponconcurrency.service.v3
 
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
@@ -8,7 +8,7 @@ import org.yellowsunn.couponconcurrency.exception.BadRequestException
 import org.yellowsunn.couponconcurrency.repository.persistence.CouponRepository
 
 @Service
-class CouponServiceV2(
+class CouponServiceV3(
     private val couponRepository: CouponRepository,
     private val redisTemplate: RedisTemplate<String, String>,
 ) {
@@ -33,7 +33,7 @@ class CouponServiceV2(
             throw BadRequestException("이미 쿠폰이 지급된 유저입니다.")
         }
 
-        // lock - 모든 유저에 대허
+        // lock - 모든 유저에 대허 (너무 범위 1요청)
         // 동시성 이슈를 해결하는 방법: lock, 원자성을 가진 명령으로 처리하면 된다.
         val remainCouponCount = redisTemplate.opsForValue().decrement("coupon:$couponId") ?: -1
 
@@ -42,6 +42,6 @@ class CouponServiceV2(
         }
 
         val newUserCoupon = UserCoupon(couponId = couponId, userId = userId)
-        couponRepository.saveUserCoupon(newUserCoupon) // 터지면, increment
+        couponRepository.saveUserCoupon(newUserCoupon) // 터지면? save incremnte
     }
 }

@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component
 import org.yellowsunn.couponconcurrency.repository.lock.LockRepository
 import java.time.Duration
 
+/**
+ * MySQL, MariaDB Named Lock & Redis Atomic operation
+ */
 @Component
 class CouponFacadeV2(
     private val couponServiceV2: CouponServiceV2,
