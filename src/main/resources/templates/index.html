@@ -14,15 +14,20 @@
   <title>쿠폰 발급 서비스</title>
 </head>
 <body>
-  <div style="width: 100%; display: flex; flex-direction: row-reverse;">
-    <button type="button" class="btn btn-success" style="margin: 5px 10px"
-      th:if="${userId == null}"
-      th:onclick="|location.href='@{/login}'|">로그인</button>
+  <div style="width: 100%; display: flex; justify-content: space-between">
+    <div>
+      <button type="button" class="btn btn-dark" style="margin: 5px 10px" th:onclick="clearCoupons([[${couponId}]])">쿠폰 초기화</button>
+    </div>
+    <div style="display: flex">
+      <button type="button" class="btn btn-success" style="margin: 5px 10px"
+        th:if="${userId == null}"
+        th:onclick="|location.href='@{/login}'|">로그인</button>
 
-    <button type="button" class="btn btn-danger" style="margin: 5px 10px"
-            th:if="${userId != null}"
-            th:onclick="clearLoginCookie()">로그아웃</button>
-    <div th:if="${userId != null}" style="margin: 5px 10px" >로그인 유저: <span th:text="${userId}"></span></div>
+      <button type="button" class="btn btn-danger" style="margin: 5px 10px"
+              th:if="${userId != null}"
+              th:onclick="clearLoginCookie()">로그아웃</button>
+      <div th:if="${userId != null}" style="margin: 5px 10px" >로그인 유저: <span th:text="${userId}"></span></div>
+    </div>
   </div>
 
   <div style="width: 1000px; height: 400px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center">
@@ -52,9 +57,21 @@
     }
   }
 
+  const clearCoupons = async (couponId) => {
+    try {
+      const response = await axios.delete(`/api/v2/coupons/${couponId}`)
+      console.log('res', response)
+    } catch (e) {
+      console.log(e)
+      alert(e?.response?.data?.message)
+    } finally {
+      location.reload()
+    }
+  }
+
   const clearLoginCookie = () => {
-    document.cookie =  'userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    location.href='/'
+    document.cookie = 'userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    location.href = '/'
   }
 </script>
 </html>

@@ -44,4 +44,9 @@ class CouponServiceV2(
         val newUserCoupon = UserCoupon(couponId = couponId, userId = userId)
         couponRepository.saveUserCoupon(newUserCoupon) // 터지면, increment
     }
+
+    fun clearCoupons(couponId: Long) {
+        couponRepository.deleteUserCoupons(couponId)
+        redisTemplate.delete("coupon:$couponId")
+    }
 }
