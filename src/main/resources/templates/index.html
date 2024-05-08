@@ -18,7 +18,7 @@
     <div>
       <button type="button" class="btn btn-dark" style="margin: 5px 10px" th:onclick="clearCoupons([[${couponId}]])">쿠폰 초기화</button>
     </div>
-    <div style="display: flex">
+    <div style="display: flex; flex-direction: row-reverse">
       <button type="button" class="btn btn-success" style="margin: 5px 10px"
         th:if="${userId == null}"
         th:onclick="|location.href='@{/login}'|">로그인</button>
