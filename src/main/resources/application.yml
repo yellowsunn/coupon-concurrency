@@ -8,6 +8,9 @@ spring:
   flyway:
     baseline-on-migrate: true
     baseline-version: 0
+  docker:
+    compose:
+      enabled: false
 server:
   error:
     include-stacktrace: never
@@ -17,15 +20,31 @@ spring:
   config:
     activate:
       on-profile: local
-  datasource:
-      driver-class-name: org.h2.Driver
-      url: jdbc:h2:mem:coupon_db
-      username: sa
-      password:
-  h2:
-    console:
+  docker:
+    compose:
       enabled: true
-      path: /h2-console
+  main:
+    datasource:
+      hikari:
+        driver-class-name: org.mariadb.jdbc.Driver
+        jdbc-url: jdbc:mariadb://localhost:13306/coupon_db
+        username: root
+        password: password
+        connection-timeout: 10000
+        maximum-pool-size: 10
+  lock:
+    datasource:
+      hikari:
+        driver-class-name: org.mariadb.jdbc.Driver
+        jdbc-url: jdbc:mariadb://localhost:13306/coupon_db
+        username: root
+        password: password
+        connection-timeout: 10000
+        maximum-pool-size: 100
+  data:
+    redis:
+      host: localhost
+      port: 16379
 ---
 spring:
   config:
