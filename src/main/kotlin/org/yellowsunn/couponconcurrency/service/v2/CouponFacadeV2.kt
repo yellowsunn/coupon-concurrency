@@ -1,7 +1,7 @@
-package org.yellowsunn.couponconcurrency.service
+package org.yellowsunn.couponconcurrency.service.v2
 
 import org.springframework.stereotype.Component
-import org.yellowsunn.couponconcurrency.repository.persistence.LockRepository
+import org.yellowsunn.couponconcurrency.repository.lock.LockRepository
 import java.time.Duration
 
 @Component

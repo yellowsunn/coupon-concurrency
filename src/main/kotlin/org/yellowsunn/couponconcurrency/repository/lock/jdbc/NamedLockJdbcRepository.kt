@@ -1,10 +1,10 @@
-package org.yellowsunn.couponconcurrency.repository.persistence.jdbc
+package org.yellowsunn.couponconcurrency.repository.lock.jdbc
 
 import org.apache.logging.log4j.util.Supplier
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Repository
-import org.yellowsunn.couponconcurrency.repository.persistence.LockRepository
+import org.yellowsunn.couponconcurrency.repository.lock.LockRepository
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException

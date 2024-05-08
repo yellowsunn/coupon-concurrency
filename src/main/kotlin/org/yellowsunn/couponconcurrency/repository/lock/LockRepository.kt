@@ -1,4 +1,4 @@
-package org.yellowsunn.couponconcurrency.repository.persistence
+package org.yellowsunn.couponconcurrency.repository.lock
 
 import org.apache.logging.log4j.util.Supplier
 import java.time.Duration
