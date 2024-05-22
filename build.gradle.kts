@@ -34,8 +34,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+//    testRuntimeOnly("com.h2database:h2")
 
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
