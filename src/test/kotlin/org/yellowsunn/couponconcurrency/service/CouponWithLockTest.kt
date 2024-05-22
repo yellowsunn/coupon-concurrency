@@ -19,15 +19,20 @@ class CouponWithLockTest {
         private const val USER_ID = "test user"
     }
 
-    @Autowired lateinit var couponFacadeV1: CouponFacadeV1
+    @Autowired
+    lateinit var couponFacadeV1: CouponFacadeV1
 
-    @Autowired lateinit var couponFacadeV2: CouponFacadeV2
+    @Autowired
+    lateinit var couponFacadeV2: CouponFacadeV2
 
-    @Autowired lateinit var couponFacadeV3: CouponFacadeV3
+    @Autowired
+    lateinit var couponFacadeV3: CouponFacadeV3
 
-    @Autowired lateinit var couponFacadeV4: CouponFacadeV4
+    @Autowired
+    lateinit var couponFacadeV4: CouponFacadeV4
 
-    @Autowired lateinit var rollbackStrategies: CouponRollbackStrategies
+    @Autowired
+    lateinit var rollbackStrategies: CouponRollbackStrategies
 
     @AfterEach
     fun rollBack() {
@@ -43,9 +48,9 @@ class CouponWithLockTest {
         val failCount = AtomicInteger(0)
 
         // when
-        executeWithLockTemplate(numberOfThread = numberOfThread, {
+        executeWithLockTemplate(numberOfThread = numberOfThread, logicSuccessCount = successCount, logicFailCount = failCount) {
             couponFacadeV1.giveCoupon(COUPON_ID, USER_ID)
-        }, logicSuccessCount = successCount, logicFailCount = failCount)
+        }
 
         // then
         assertAll(
@@ -63,9 +68,9 @@ class CouponWithLockTest {
         val failCount = AtomicInteger(0)
 
         // when
-        executeWithLockTemplate(numberOfThread = numberOfThread, {
+        executeWithLockTemplate(numberOfThread = numberOfThread, logicSuccessCount = successCount, logicFailCount = failCount) {
             couponFacadeV2.giveCoupon(COUPON_ID, USER_ID)
-        }, logicSuccessCount = successCount, logicFailCount = failCount)
+        }
 
         // then
         assertAll(
@@ -83,9 +88,9 @@ class CouponWithLockTest {
         val failCount = AtomicInteger(0)
 
         // when
-        executeWithLockTemplate(numberOfThread = numberOfThread, {
+        executeWithLockTemplate(numberOfThread = numberOfThread, logicSuccessCount = successCount, logicFailCount = failCount) {
             couponFacadeV3.giveCoupon(COUPON_ID, USER_ID)
-        }, logicSuccessCount = successCount, logicFailCount = failCount)
+        }
 
         // then
         assertAll(
@@ -103,9 +108,9 @@ class CouponWithLockTest {
         val failCount = AtomicInteger(0)
 
         // when
-        executeWithLockTemplate(numberOfThread = numberOfThread, {
+        executeWithLockTemplate(numberOfThread = numberOfThread, logicSuccessCount = successCount, logicFailCount = failCount) {
             couponFacadeV4.giveCoupon(COUPON_ID, USER_ID)
-        }, logicSuccessCount = successCount, logicFailCount = failCount)
+        }
 
         // then
         assertAll(

@@ -7,9 +7,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 fun <T> executeWithLockTemplate(
     numberOfThread: Int = 10,
-    businessLogic: Supplier<T>,
     logicSuccessCount: AtomicInteger = AtomicInteger(0),
     logicFailCount: AtomicInteger = AtomicInteger(0),
+    businessLogic: Supplier<T>,
 ) {
     val countDownLatch = CountDownLatch(numberOfThread)
     val executorService = Executors.newFixedThreadPool(numberOfThread)
