@@ -18,7 +18,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-      driver-class-name: org.h2.Driver
+      driver-class-name: org.mariadb.jdbc.Driver
       url: jdbc:h2:mem:coupon_db
       username: sa
       password:
