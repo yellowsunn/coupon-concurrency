@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.yellowsunn.couponconcurrency.service.v0.CouponFacadeV0
 import org.yellowsunn.couponconcurrency.service.v1.CouponFacadeV1
 import org.yellowsunn.couponconcurrency.service.v2.CouponFacadeV2
 import org.yellowsunn.couponconcurrency.service.v3.CouponFacadeV3
@@ -18,6 +19,9 @@ class CouponWithLockTest {
         private const val COUPON_ID = 1L
         private const val USER_ID = "test user"
     }
+
+    @Autowired
+    lateinit var couponFacadeV0: CouponFacadeV0
 
     @Autowired
     lateinit var couponFacadeV1: CouponFacadeV1
@@ -37,6 +41,26 @@ class CouponWithLockTest {
     @AfterEach
     fun rollBack() {
         rollbackStrategies.clean(COUPON_ID, USER_ID)
+    }
+
+    @Test
+    fun v0_localLockTest() {
+        // given
+        val numberOfThread = 10
+
+        val successCount = AtomicInteger(0)
+        val failCount = AtomicInteger(0)
+
+        // when
+        executeWithLockTemplate(numberOfThread = numberOfThread, logicSuccessCount = successCount, logicFailCount = failCount) {
+            couponFacadeV0.giveCoupon(COUPON_ID, USER_ID)
+        }
+
+        // then
+        assertAll(
+            { Assertions.assertThat(successCount.get()).isEqualTo(1) },
+            { Assertions.assertThat(failCount.get()).isEqualTo(numberOfThread - 1) },
+        )
     }
 
     @Test
