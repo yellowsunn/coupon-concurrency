@@ -20,4 +20,8 @@ class CouponFacadeV2(
             couponServiceV2.giveCoupon(couponId, userId)
         }
     }
+
+    fun clearCoupons(couponId: Long) {
+        couponServiceV2.clearCoupons(couponId)
+    }
 }

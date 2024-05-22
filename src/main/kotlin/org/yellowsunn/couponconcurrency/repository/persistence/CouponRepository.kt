@@ -11,4 +11,6 @@ interface CouponRepository {
     ): Boolean
 
     fun saveUserCoupon(userCoupon: UserCoupon): UserCoupon
+
+    fun deleteUserCoupons(couponId: Long)
 }

@@ -1,6 +1,7 @@
 package org.yellowsunn.couponconcurrency.controller.rest
 
 import org.springframework.web.bind.annotation.CookieValue
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
@@ -46,5 +47,12 @@ class CouponController(
         @PathVariable couponId: Long,
     ) {
         return couponFacadeV4.giveCoupon(couponId = couponId, userId = userId)
+    }
+
+    @DeleteMapping("/api/v2/coupons/{couponId}")
+    fun clearCouponsV2(
+        @PathVariable couponId: Long,
+    ) {
+        return couponFacadeV2.clearCoupons(couponId)
     }
 }

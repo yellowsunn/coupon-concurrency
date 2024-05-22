@@ -10,4 +10,6 @@ interface UserCouponJpaRepository : JpaRepository<UserCoupon, Long> {
         couponId: Long,
         userId: String,
     ): Boolean
+
+    fun deleteByCouponId(couponId: Long)
 }

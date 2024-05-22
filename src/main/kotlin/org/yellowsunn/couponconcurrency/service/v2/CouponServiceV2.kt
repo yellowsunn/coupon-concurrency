@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.yellowsunn.couponconcurrency.domain.UserCoupon
 import org.yellowsunn.couponconcurrency.exception.BadRequestException
 import org.yellowsunn.couponconcurrency.repository.persistence.CouponRepository
+import org.yellowsunn.couponconcurrency.utils.setIfAbsent
 
 @Service
 class CouponServiceV2(
@@ -22,10 +23,9 @@ class CouponServiceV2(
         userId: String,
     ) {
         // Redis - SET key value NX
-        redisTemplate.opsForValue().setIfAbsent(
-            "coupon:$couponId",
-            couponRepository.countRemainCoupons(couponId).toString(),
-        )
+        redisTemplate.opsForValue().setIfAbsent("coupon:$couponId") {
+            couponRepository.countRemainCoupons(couponId).toString()
+        }
 
         // 한 유저에 대해서만 필요한 락
         val isAlreadyExist = couponRepository.existsByCouponIdAndUserId(couponId = couponId, userId = userId)
@@ -43,5 +43,10 @@ class CouponServiceV2(
 
         val newUserCoupon = UserCoupon(couponId = couponId, userId = userId)
         couponRepository.saveUserCoupon(newUserCoupon) // 터지면, increment
+    }
+
+    fun clearCoupons(couponId: Long) {
+        couponRepository.deleteUserCoupons(couponId)
+        redisTemplate.delete("coupon:$couponId")
     }
 }

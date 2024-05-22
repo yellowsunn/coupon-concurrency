@@ -35,4 +35,9 @@ class CouponRepositoryImpl(
     override fun saveUserCoupon(userCoupon: UserCoupon): UserCoupon {
         return userCouponJpaRepository.save(userCoupon)
     }
+
+    @Transactional
+    override fun deleteUserCoupons(couponId: Long) {
+        userCouponJpaRepository.deleteByCouponId(couponId)
+    }
 }
