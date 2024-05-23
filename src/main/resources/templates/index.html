@@ -33,6 +33,7 @@
   <div style="width: 1000px; height: 400px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center">
     <div style="margin: 10px">남은 쿠폰 수: <span th:text="${remainCouponCount}"></span></div>
     <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 10px" th:onclick="giveCoupon('v1', [[${couponId}]])">쿠폰 발급 하기</button>
+    <button type="button" class="btn btn-outline-danger" style="margin-bottom: 10px" th:onclick="giveCoupon10('v0', [[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기 (v0 - local lock(by all))</button>
     <button type="button" class="btn btn-outline-danger" style="margin-bottom: 10px" th:onclick="giveCoupon10('v1', [[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기 (v1 - db named lock(by all))</button>
     <button type="button" class="btn btn-outline-warning" style="margin-bottom: 10px" th:onclick="giveCoupon10('v2', [[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기 (v2 - db named lock(by user-coupon mapping) & redis atomic operation)</button>
     <button type="button" class="btn btn-outline-warning" style="margin-bottom: 10px" th:onclick="giveCoupon10('v3', [[${couponId}]])">쿠폰 '따닥 (10회)' 발급 하기 (v3 - redis spin lock)</button>
