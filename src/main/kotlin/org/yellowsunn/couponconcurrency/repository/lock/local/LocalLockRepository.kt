@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Supplier
 import org.springframework.stereotype.Repository
 import org.yellowsunn.couponconcurrency.repository.lock.LockRepository
 import java.time.Duration
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 
@@ -13,13 +14,15 @@ class LocalLockRepository : LockRepository {
         private const val FAIL_TO_ACQUIRE_LOCK_EXCEPTION_MESSAGE = "LOCK을 획득하지 못했습니다."
     }
 
-    private val lock = ReentrantLock()
+    private val locks = ConcurrentHashMap<String, ReentrantLock>()
 
     override fun <T> executeWithLock(
         lockName: String,
         timeout: Duration,
         supplier: Supplier<T>,
     ): T {
+        val lock = locks.putIfAbsent(lockName, ReentrantLock())!!
+
         try {
             val acquired = lock.tryLock(timeout.toSeconds(), TimeUnit.SECONDS)
 
